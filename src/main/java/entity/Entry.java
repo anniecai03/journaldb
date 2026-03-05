@@ -1,6 +1,7 @@
 package entity;
 
 import java.time.*;
+import java.util.List;
 
 import jakarta.persistence.*;
 
@@ -24,5 +25,13 @@ public class Entry {
 	
 	@Column(name="edit_date")
 	LocalDate editDate;
+	
+	@ManyToMany
+	@JoinTable(
+		name = "entrytag",
+		joinColumns = @JoinColumn(name = "entry_id"),
+		inverseJoinColumns = @JoinColumn(name = "tag_id")
+	)
+	List<Tag> tags;
 	
 }

@@ -22,6 +22,11 @@ public class JournalController {
 		
 	}
 	
+	@GetMapping("/entries/{id}")
+	public void getEntryByID() {
+		
+	}
+	
 	@PostMapping("/entries")
 	public void createEntry() {
 		
@@ -39,6 +44,11 @@ public class JournalController {
 	
 	@GetMapping("/tags")
 	public void getAllTags() {
+		
+	}
+	
+	@GetMapping("/tags/entries/{id}")
+	public void getTagsByEntryID() {
 		
 	}
 	
