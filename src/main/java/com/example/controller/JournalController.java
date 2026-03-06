@@ -1,11 +1,11 @@
-package controller;
-
-import repository.EntryRepository;
-import repository.TagRepository;
+package com.example.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.example.journaling_app.repository.EntryRepository;
+import com.example.journaling_app.repository.TagRepository;
 
 import java.util.List;
 
@@ -47,7 +47,7 @@ public class JournalController {
 		
 	}
 	
-	@GetMapping("/tags/entries/{id}")
+	@GetMapping("/entries/{id}/tags")
 	public void getTagsByEntryID() {
 		
 	}
@@ -62,7 +62,7 @@ public class JournalController {
 		
 	}
 	
-	// TODO
+	@GetMapping("/tags/{id}/entries")
 	public void getEntriesByTags() {
 		
 	}

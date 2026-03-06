@@ -1,7 +1,7 @@
-package service;
+package com.example.journaling_app.service;
 
-import entity.Tag;
-import repository.TagRepository;
+import com.example.journaling_app.entity.Tag;
+import com.example.journaling_app.repository.TagRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
