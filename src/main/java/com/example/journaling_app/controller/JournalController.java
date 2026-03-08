@@ -101,8 +101,19 @@ public class JournalController {
 	}
 	
 	@GetMapping("/tags/{tagId}/entries")
-	public ResponseEntity<List<Entry>> getEntriesByTags(@PathVariable Integer tagId) {
+	public ResponseEntity<List<Entry>> getEntriesByTagID(@PathVariable Integer tagId) {
 		List<Entry> entries = this.tagService.getEntriesByTagID(tagId);
+		
+		if (entries == null) {
+			return ResponseEntity.status(400).body(entries);
+		}
+		
+		return ResponseEntity.status(200).body(entries);	
+	}
+	
+	@GetMapping("/tags/entries")
+	public ResponseEntity<List<Entry>> getEntriesByTags(@RequestBody List<Integer> tagIds) {
+		List<Entry> entries = this.entryService.getEntriesByTagIDs(tagIds);
 		
 		if (entries == null) {
 			return ResponseEntity.status(400).body(entries);

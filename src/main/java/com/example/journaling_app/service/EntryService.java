@@ -73,5 +73,8 @@ public class EntryService {
 		return null;
 	}
 	
+	public List<Entry> getEntriesByTagIDs(List<Integer> ids) {
+		return this.entryRepository.findEntriesByTagIds(ids);
+	}
 
 }

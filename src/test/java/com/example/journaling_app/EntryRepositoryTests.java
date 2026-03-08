@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,12 +18,26 @@ public class EntryRepositoryTests {
     private EntryRepository entryRepository;
 
     @Test
-    void getAllEntries() {
+    void findAllTest() {
 
-        LocalDateTime now = LocalDateTime.now();
+        Entry entry1 = new Entry("test 1", "test 1");
+        Entry entry2 = new Entry("test 2", "test 2");
 
-        Entry entry1 = new Entry("test 1", "test 1", now, now);
-        Entry entry2 = new Entry("test 2", "test 2", now, now);
+        entryRepository.save(entry1);
+        entryRepository.save(entry2);
+
+        List<Entry> entries = entryRepository.findAll();
+
+        assertEquals(2, entries.size());
+        assertTrue(entries.stream().anyMatch(e -> e.getTitle().equals("test 1")));
+        assertTrue(entries.stream().anyMatch(e -> e.getTitle().equals("test 2")));
+    }
+    
+    @Test
+    void findByEntryIdTest() {
+
+        Entry entry1 = new Entry("test 1", "test 1");
+        Entry entry2 = new Entry("test 2", "test 2");
 
         entryRepository.save(entry1);
         entryRepository.save(entry2);
