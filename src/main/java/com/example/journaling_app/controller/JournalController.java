@@ -30,7 +30,7 @@ public class JournalController {
 		Entry dbEntry = this.entryService.getEntryByID(entryId);
 		
 		if (dbEntry == null) {
-			return ResponseEntity.status(400).body(dbEntry);
+			return ResponseEntity.status(404).body(dbEntry);
 		}
 		return ResponseEntity.status(200).body(dbEntry);
 		
@@ -51,7 +51,7 @@ public class JournalController {
 		Integer updateCount = this.entryService.updateEntryByID(entry, entryId);
 		
 		if (updateCount == 0) {
-			return ResponseEntity.status(400).body(updateCount);
+			return ResponseEntity.status(404).body(updateCount);
 		}
 		return ResponseEntity.status(200).body(updateCount);
 		
@@ -62,7 +62,7 @@ public class JournalController {
 		Integer deleteCount = this.entryService.deleteEntryByID(entryId);
 		
 		if (deleteCount == 0) {
-			return ResponseEntity.status(400).body(deleteCount);
+			return ResponseEntity.status(404).body(deleteCount);
 		}
 		return ResponseEntity.status(200).body(deleteCount);
 	}
@@ -72,7 +72,7 @@ public class JournalController {
 		List<Tag> tags = this.entryService.getTagsByEntryID(entryId);
 		
 		if (tags == null) {
-			return ResponseEntity.status(402).body(tags);
+			return ResponseEntity.status(404).body(tags);
 		}
 		
 		return ResponseEntity.status(200).body(tags);
@@ -95,7 +95,7 @@ public class JournalController {
 		Integer deleteCount = this.tagService.deleteTagByID(tagId);
 		
 		if (deleteCount == 0) {
-			return ResponseEntity.status(400).body(deleteCount);
+			return ResponseEntity.status(404).body(deleteCount);
 		}
 		return ResponseEntity.status(200).body(deleteCount);
 	}
@@ -105,18 +105,18 @@ public class JournalController {
 		List<Entry> entries = this.tagService.getEntriesByTagID(tagId);
 		
 		if (entries == null) {
-			return ResponseEntity.status(400).body(entries);
+			return ResponseEntity.status(404).body(entries);
 		}
 		
 		return ResponseEntity.status(200).body(entries);	
 	}
 	
 	@GetMapping("/tags/entries")
-	public ResponseEntity<List<Entry>> getEntriesByTags(@RequestBody List<Integer> tagIds) {
+	public ResponseEntity<List<Entry>> getEntriesByTags(@RequestParam List<Integer> tagIds) {
 		List<Entry> entries = this.entryService.getEntriesByTagIDs(tagIds);
 		
 		if (entries == null) {
-			return ResponseEntity.status(400).body(entries);
+			return ResponseEntity.status(404).body(entries);
 		}
 		
 		return ResponseEntity.status(200).body(entries);	
