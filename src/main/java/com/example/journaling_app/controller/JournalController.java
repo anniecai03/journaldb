@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.journaling_app.entity.Entry;
 import com.example.journaling_app.entity.Tag;
-import com.example.journaling_app.repository.EntryRepository;
 import com.example.journaling_app.repository.TagRepository;
+import com.example.journaling_app.service.EntryService;
 
 import java.util.List;
 
@@ -16,18 +16,18 @@ import java.util.List;
 public class JournalController {
 	
 	@Autowired
-	EntryRepository entryRepository;
+	EntryService entryService;
 	@Autowired
 	TagRepository tagRepository;
 	
 	@GetMapping("/entries")
 	public ResponseEntity<List<Entry>> getAllEntries() {
-		return ResponseEntity.status(200).body(this.entryRepository.findAll());		
+		return ResponseEntity.status(200).body(this.entryService.getAllEntries());		
 	}
 	
 	@GetMapping("/entries/{entryId}")
 	public ResponseEntity<Entry> getEntryByID(@PathVariable Integer entryId) {
-		Entry dbEntry = this.entryRepository.findByEntryId(entryId);
+		Entry dbEntry = this.entryService.getEntryByID(entryId);
 		
 		if (dbEntry == null) {
 			return ResponseEntity.status(400).body(dbEntry);
@@ -38,7 +38,7 @@ public class JournalController {
 	
 	@PostMapping("/entries")
 	public ResponseEntity<Entry> createEntry(@RequestBody Entry entry) {
-		Entry newEntry = this.entryRepository.save(entry);
+		Entry newEntry = this.entryService.createEntry(entry);
 				
 		if (newEntry == null) {
 			return ResponseEntity.status(400).body(newEntry);
@@ -48,16 +48,7 @@ public class JournalController {
 	
 	@PutMapping("/entries/{entryId}")
 	public ResponseEntity<Integer> updateEntryByID(@RequestBody Entry entry, @PathVariable Integer entryId) {
-		Entry dbEntry = this.entryRepository.findByEntryId(entryId);
-		
-		if (dbEntry == null) {
-			return ResponseEntity.status(400).body(null);
-		}
-		
-		Integer updateCount = this.entryRepository.updateEntryByEntryId(entry.getTitle(), 
-				entry.getContent(), 
-				entry.getEditDate(), 
-				entryId);
+		Integer updateCount = this.entryService.updateEntryByID(entry, entryId);
 		
 		if (updateCount == 0) {
 			return ResponseEntity.status(400).body(updateCount);
@@ -68,7 +59,7 @@ public class JournalController {
 	
 	@DeleteMapping("/entries/{entryId}")
 	public ResponseEntity<Integer> deleteEntryByID(@PathVariable Integer entryId) {
-		Integer deleteCount = this.entryRepository.deleteByEntryId(entryId);
+		Integer deleteCount = this.entryService.deleteEntryByID(entryId);
 		
 		if (deleteCount == 0) {
 			return ResponseEntity.status(400).body(deleteCount);
@@ -84,13 +75,13 @@ public class JournalController {
 	
 	@GetMapping("/entries/{entryId}/tags")
 	public ResponseEntity<List<Tag>> getTagsByEntryID(@PathVariable Integer entryId) {
-		Entry dbEntry = this.entryRepository.findByEntryId(entryId);
+		List<Tag> tags = this.entryService.getEntryTagsByID(entryId);
 		
-		if (dbEntry == null) {
-			return ResponseEntity.status(402).body(null);
+		if (tags == null) {
+			return ResponseEntity.status(402).body(tags);
 		}
 		
-		return ResponseEntity.status(200).body(dbEntry.getTags());
+		return ResponseEntity.status(200).body(tags);
 	}
 	
 	@PostMapping("/tags")
