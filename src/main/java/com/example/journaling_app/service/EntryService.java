@@ -47,7 +47,7 @@ public class EntryService {
 		return this.entryRepository.deleteByEntryId(id);
 	}
 	
-	public List<Tag> getEntryTagsByID(Integer id) {
+	public List<Tag> getTagsByEntryID(Integer id) {
 		Entry dbEntry = this.getEntryByID(id);
 		
 		if (dbEntry != null) {
