@@ -23,6 +23,10 @@ public class TagService {
 		return this.tagRepository.findByTagId(id);
 	}
 	
+	public Tag getTagByName(String name) {
+		return this.tagRepository.findByName(name);
+	}
+	
 	public Tag createTag(Tag tag) {
 		return this.tagRepository.save(tag);
 	}

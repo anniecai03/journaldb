@@ -4,11 +4,10 @@ import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.hibernate.annotations.CreationTimestamp;
-
-import com.fasterxml.jackson.annotation.*;
+import org.hibernate.annotations.*;
 
 import jakarta.persistence.*;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "entry")
@@ -30,11 +29,11 @@ public class Entry {
 	private LocalDateTime creationDate;
 	
 	@Column(name="edit_date")
-	@CreationTimestamp
+	@UpdateTimestamp
 	private LocalDateTime editDate;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JsonManagedReference
+	@ManyToMany
+//	@JsonManagedReference
 //	@JsonIgnore
 	@JoinTable(
 		name = "entrytag",
@@ -82,7 +81,7 @@ public class Entry {
 	}
 		
 	// Getters
-	public Integer getEntryID() {return this.entryId;}
+	public Integer getEntryId() {return this.entryId;}
 	public String getTitle() {return this.title;}
 	public String getContent() {return this.content;}
 	public LocalDateTime getCreationDate() {return this.creationDate;}
@@ -90,7 +89,7 @@ public class Entry {
 	public List<Tag> getTags() {return this.tags;}
 		
 	// Setters
-	public void setEntryID(Integer id) {this.entryId = id;}
+	public void setEntryId(Integer id) {this.entryId = id;}
 	public void setTitle(String title) {this.title = title;}
 	public void setContent(String content) {this.content = content;}
 	public void setCreationDate(LocalDateTime date) {this.creationDate = date;}

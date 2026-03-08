@@ -4,6 +4,7 @@ import com.example.journaling_app.entity.Entry;
 import com.example.journaling_app.entity.Tag;
 import com.example.journaling_app.repository.EntryRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,8 @@ public class EntryService {
 	
 	@Autowired
 	EntryRepository entryRepository;
+	@Autowired
+	TagService tagService;
 	
 	public List<Entry> getAllEntries() {
 		return this.entryRepository.findAll();
@@ -25,6 +28,20 @@ public class EntryService {
 	
 	public Entry createEntry(Entry entry) {
 		if (entry.getTitle().length() > 0 && entry.getContent().length() > 0) {
+			
+			List<Tag> saveTags = new ArrayList<Tag>();
+			
+			for(Tag tag : entry.getTags()) {
+				Tag dbTag = tagService.getTagByName(tag.getName());
+						
+				if (dbTag == null) {
+					dbTag = tagService.createTag(tag);
+				}
+				
+				saveTags.add(dbTag);
+			}
+			
+			entry.setTags(saveTags);
 			return this.entryRepository.save(entry);
 		}
 		return null;
