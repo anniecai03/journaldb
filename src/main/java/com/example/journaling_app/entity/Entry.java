@@ -4,6 +4,10 @@ import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.*;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -22,28 +26,42 @@ public class Entry {
 	private String content;
 	
 	@Column(name="creation_date")
+	@CreationTimestamp
 	private LocalDateTime creationDate;
 	
 	@Column(name="edit_date")
+	@CreationTimestamp
 	private LocalDateTime editDate;
 	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JsonManagedReference
+//	@JsonIgnore
 	@JoinTable(
 		name = "entrytag",
 		joinColumns = @JoinColumn(name = "entry_id"),
 		inverseJoinColumns = @JoinColumn(name = "tag_id")
 	)
-	private List<Tag> tags;
+	private List<Tag> tags = new ArrayList<Tag>();
 	
 	// Constructors
 	public Entry() { 	}
+	
+	public Entry(String title, String content) {
+		this.title = title;
+		this.content = content;
+	}
+	
+	public Entry(String title, String content, List<Tag> tagList) {
+		this.title = title;
+		this.content = content;
+		this.tags = tagList;
+	}
 	
 	public Entry(String title, String content, LocalDateTime creationDate, LocalDateTime editDate) {
 		this.title = title;
 		this.content = content;
 		this.creationDate = creationDate;
 		this.editDate = editDate;
-		this.tags = new ArrayList<>();
 	}
 		
 	public Entry(Integer id, String title, String content, LocalDateTime creationDate, LocalDateTime editDate) {
@@ -52,7 +70,6 @@ public class Entry {
 		this.content = content;
 		this.creationDate = creationDate;
 		this.editDate = editDate;
-		this.tags = new ArrayList<>();
 	}
 		
 	public Entry(Integer id, String title, String content, LocalDateTime creationDate, LocalDateTime editDate, List<Tag> tagList) {
@@ -70,7 +87,7 @@ public class Entry {
 	public String getContent() {return this.content;}
 	public LocalDateTime getCreationDate() {return this.creationDate;}
 	public LocalDateTime getEditDate() {return this.editDate;}
-	public List<Tag> getEntries() {return this.tags;}
+	public List<Tag> getTags() {return this.tags;}
 		
 	// Setters
 	public void setEntryID(Integer id) {this.entryId = id;}

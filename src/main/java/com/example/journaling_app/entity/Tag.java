@@ -3,6 +3,8 @@ package com.example.journaling_app.entity;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.*;
+
 import jakarta.persistence.*;
 
 @Entity
@@ -17,6 +19,8 @@ public class Tag {
 	private String name;
 	
 	@ManyToMany(mappedBy = "tags")
+	@JsonBackReference
+//	@JsonIgnore
 	private List<Entry> entries;
 	
 	// Constructors
