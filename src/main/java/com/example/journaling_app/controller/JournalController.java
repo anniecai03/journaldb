@@ -20,14 +20,6 @@ public class JournalController {
 	@Autowired
 	TagService tagService;
 	
-//	@GetMapping("/entries")
-//	public ResponseEntity<List<Entry>> getAllEntries(@RequestParam(required = false) String search, 
-//													 @RequestParam(required = false) String sort, 
-//													 @RequestParam(required = false) String direction) {
-//		List<Entry> results = this.entryService.getEntriesBySearch(search, sort, direction);
-//		return ResponseEntity.status(200).body(results);		
-//	}
-	
 	@GetMapping("/entries")
 	public ResponseEntity<List<Entry>> getAllEntriesFilter(@RequestParam(required = false) String search, 
 													    @RequestParam(required = false) String sort, 
@@ -77,16 +69,16 @@ public class JournalController {
 		return ResponseEntity.status(200).body(deleteCount);
 	}
 	
-//	@GetMapping("/entries/{entryId}/tags")
-//	public ResponseEntity<List<Tag>> getTagsByEntryID(@PathVariable Integer entryId) {
-//		List<Tag> tags = this.entryService.getTagsByEntryID(entryId);
-//		
-//		if (tags == null) {
-//			return ResponseEntity.status(404).body(tags);
-//		}
-//		
-//		return ResponseEntity.status(200).body(tags);
-//	}
+	@GetMapping("/entries/{entryId}/tags")
+	public ResponseEntity<List<Tag>> getTagsByEntryID(@PathVariable Integer entryId) {
+		List<Tag> tags = this.entryService.getTagsByEntryID(entryId);
+		
+		if (tags == null) {
+			return ResponseEntity.status(404).body(tags);
+		}
+		
+		return ResponseEntity.status(200).body(tags);
+	}
 	
 	@GetMapping("/tags")
 	public ResponseEntity<List<Tag>> getAllTags() {
@@ -119,16 +111,4 @@ public class JournalController {
 		
 		return ResponseEntity.status(200).body(entries);	
 	}
-	
-	@GetMapping("/tags/entries")
-	public ResponseEntity<List<Entry>> getEntriesByTags(@RequestParam List<Integer> tagIds) {
-		List<Entry> entries = this.entryService.getEntriesByTagIDs(tagIds);
-		
-		if (entries == null) {
-			return ResponseEntity.status(404).body(entries);
-		}
-		
-		return ResponseEntity.status(200).body(entries);	
-	}	
-
 }
