@@ -5,6 +5,7 @@ import com.example.journaling_app.entity.Tag;
 import com.example.journaling_app.repository.EntryRepository;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +87,32 @@ public class EntryService {
 	
 	public List<Entry> getEntriesByTagIDs(List<Integer> ids) {
 		return this.entryRepository.findEntriesByTagIds(ids);
+	}
+	
+	public List<Entry> getEntriesBySearchAndTags(String title, String sort, String direction, List<Integer> ids) {		
+		List<Entry> searchEntries = this.getEntriesBySearch(title, sort, direction);
+		List<Entry> results = new ArrayList<Entry>();
+		
+		for (Entry entry : searchEntries) {
+			for (Tag tag : entry.getTags()) {
+				if (ids.contains(tag.getTagId())) {
+					results.add(entry);
+					break;
+				}
+			}
+		}
+		return results;
+	}
+	
+	public List<Entry> filterEntries(String title, String sort, String direction, List<Integer> ids) {
+		if (title == null && sort == null && direction == null && ids == null) {
+			return this.entryRepository.findAll();
+		} else if (ids == null) {
+			return this.getEntriesBySearch(title, sort, direction);
+		} else if (title == null && sort == null && direction == null) {
+			return this.getEntriesByTagIDs(ids);
+		}
+		return this.getEntriesBySearchAndTags(title, sort, direction, ids);
 	}
 
 }

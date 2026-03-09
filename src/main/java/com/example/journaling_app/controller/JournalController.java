@@ -20,11 +20,20 @@ public class JournalController {
 	@Autowired
 	TagService tagService;
 	
+//	@GetMapping("/entries")
+//	public ResponseEntity<List<Entry>> getAllEntries(@RequestParam(required = false) String search, 
+//													 @RequestParam(required = false) String sort, 
+//													 @RequestParam(required = false) String direction) {
+//		List<Entry> results = this.entryService.getEntriesBySearch(search, sort, direction);
+//		return ResponseEntity.status(200).body(results);		
+//	}
+	
 	@GetMapping("/entries")
-	public ResponseEntity<List<Entry>> getAllEntries(@RequestParam(required = false) String search, 
-													 @RequestParam(required = false) String sort, 
-													 @RequestParam(required = false) String direction) {
-		List<Entry> results = this.entryService.getEntriesBySearch(search, sort, direction);
+	public ResponseEntity<List<Entry>> getAllEntriesFilter(@RequestParam(required = false) String search, 
+													    @RequestParam(required = false) String sort, 
+													    @RequestParam(required = false) String direction,
+													    @RequestParam(required = false) List<Integer> ids) {
+		List<Entry> results = this.entryService.filterEntries(search, sort, direction, ids);
 		return ResponseEntity.status(200).body(results);		
 	}
 	
@@ -68,16 +77,16 @@ public class JournalController {
 		return ResponseEntity.status(200).body(deleteCount);
 	}
 	
-	@GetMapping("/entries/{entryId}/tags")
-	public ResponseEntity<List<Tag>> getTagsByEntryID(@PathVariable Integer entryId) {
-		List<Tag> tags = this.entryService.getTagsByEntryID(entryId);
-		
-		if (tags == null) {
-			return ResponseEntity.status(404).body(tags);
-		}
-		
-		return ResponseEntity.status(200).body(tags);
-	}
+//	@GetMapping("/entries/{entryId}/tags")
+//	public ResponseEntity<List<Tag>> getTagsByEntryID(@PathVariable Integer entryId) {
+//		List<Tag> tags = this.entryService.getTagsByEntryID(entryId);
+//		
+//		if (tags == null) {
+//			return ResponseEntity.status(404).body(tags);
+//		}
+//		
+//		return ResponseEntity.status(200).body(tags);
+//	}
 	
 	@GetMapping("/tags")
 	public ResponseEntity<List<Tag>> getAllTags() {
