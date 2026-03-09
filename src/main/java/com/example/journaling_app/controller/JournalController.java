@@ -9,6 +9,7 @@ import com.example.journaling_app.entity.Tag;
 import com.example.journaling_app.service.EntryService;
 import com.example.journaling_app.service.TagService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,8 +22,11 @@ public class JournalController {
 	TagService tagService;
 	
 	@GetMapping("/entries")
-	public ResponseEntity<List<Entry>> getAllEntries() {
-		return ResponseEntity.status(200).body(this.entryService.getAllEntries());		
+	public ResponseEntity<List<Entry>> getAllEntries(@RequestParam(required = false) String search, 
+													 @RequestParam(required = false) String sort, 
+													 @RequestParam(required = false) String direction) {
+		List<Entry> results = this.entryService.getEntriesBySearch(search, sort, direction);
+		return ResponseEntity.status(200).body(results);		
 	}
 	
 	@GetMapping("/entries/{entryId}")
@@ -33,7 +37,6 @@ public class JournalController {
 			return ResponseEntity.status(404).body(dbEntry);
 		}
 		return ResponseEntity.status(200).body(dbEntry);
-		
 	}
 	
 	@PostMapping("/entries")

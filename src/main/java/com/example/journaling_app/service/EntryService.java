@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,6 +21,16 @@ public class EntryService {
 	
 	public List<Entry> getAllEntries() {
 		return this.entryRepository.findAll();
+	}
+	
+	public List<Entry> getEntriesBySearch(String title, String sort, String direction) {		
+		if (title == null) { title = ""; }
+		if (sort == null) { sort = "creationDate"; }
+		if (direction != null && direction.equals("desc")) { 
+			return this.entryRepository.findByTitleContainingIgnoreCase(title, Sort.by(Sort.Direction.DESC, sort));
+		}
+		
+		return this.entryRepository.findByTitleContainingIgnoreCase(title, Sort.by(sort));
 	}
 	
 	public Entry getEntryByID(Integer id) {
