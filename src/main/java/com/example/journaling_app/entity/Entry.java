@@ -15,7 +15,7 @@ public class Entry {
 	
 	@Column(name="entry_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer entryId;
 	
 	@Column(name="title")

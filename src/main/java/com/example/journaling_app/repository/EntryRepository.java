@@ -23,7 +23,7 @@ public interface EntryRepository extends JpaRepository<Entry, Long> {
 	
 	@Transactional
 	@Modifying
-	@Query(value = "UPDATE entry SET title = :titleVar AND content = :contentVar AND edit_date = :dateVar WHERE entry_id = :idVar", nativeQuery = true)
+	@Query(value = "UPDATE entry SET title = :titleVar, content = :contentVar, edit_date = :dateVar WHERE entry_id = :idVar", nativeQuery = true)
 	Integer updateEntryByEntryId(@Param("titleVar") String title, @Param("contentVar") String content, @Param("dateVar") LocalDateTime editDate, @Param("idVar") Integer id);
 	
 	@Query(value = "SELECT DISTINCT entry.* FROM entry JOIN entrytag ON entry.entry_id = entrytag.entry_id WHERE entrytag.tag_id IN (:tagIdVars)", nativeQuery = true)

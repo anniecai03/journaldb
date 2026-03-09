@@ -4,6 +4,7 @@ import com.example.journaling_app.entity.Entry;
 import com.example.journaling_app.entity.Tag;
 import com.example.journaling_app.repository.EntryRepository;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -66,7 +67,7 @@ public class EntryService {
 		if (dbEntry != null && validEntryContents) {
 			return this.entryRepository.updateEntryByEntryId(entry.getTitle(), 
 					entry.getContent(), 
-					entry.getEditDate(), 
+					LocalDateTime.now(), 
 					id);
 		}
 		return 0;

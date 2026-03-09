@@ -12,7 +12,7 @@ public class Tag {
 	
 	@Column(name="tag_id")
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer tagId;
 	
 	@Column(name="name")
