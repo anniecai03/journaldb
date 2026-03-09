@@ -9,7 +9,6 @@ import com.example.journaling_app.entity.Tag;
 import com.example.journaling_app.service.EntryService;
 import com.example.journaling_app.service.TagService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -56,8 +55,7 @@ public class JournalController {
 		if (updateCount == 0) {
 			return ResponseEntity.status(404).body(updateCount);
 		}
-		return ResponseEntity.status(200).body(updateCount);
-		
+		return ResponseEntity.status(200).body(updateCount);	
 	}
 	
 	@DeleteMapping("/entries/{entryId}")
@@ -84,7 +82,6 @@ public class JournalController {
 	@GetMapping("/tags")
 	public ResponseEntity<List<Tag>> getAllTags() {
 		return ResponseEntity.status(200).body(this.tagService.getAllTags());
-		
 	}
 	
 	@PostMapping("/tags")
@@ -123,7 +120,6 @@ public class JournalController {
 		}
 		
 		return ResponseEntity.status(200).body(entries);	
-	}
-	
+	}	
 
 }
