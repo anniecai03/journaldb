@@ -40,7 +40,7 @@ public class EntryService {
 	}
 	
 	public Entry createEntry(Entry entry) {
-		if (entry.getTitle().length() > 0 && entry.getContent().length() > 0) {
+		if (this.isValidEntryTitleAndContent(entry)) {
 			
 			List<Tag> saveTags = new ArrayList<Tag>();
 			
@@ -62,9 +62,8 @@ public class EntryService {
 	
 	public Integer updateEntryByID(Entry entry, Integer id) {
 		Entry dbEntry = this.getEntryByID(id);
-		Boolean validEntryContents = entry.getTitle().length() > 0 && entry.getContent().length() > 0;
 		
-		if (dbEntry != null && validEntryContents) {
+		if (dbEntry != null && this.isValidEntryTitleAndContent(entry)) {
 			return this.entryRepository.updateEntryByEntryId(entry.getTitle(), 
 					entry.getContent(), 
 					LocalDateTime.now(), 
@@ -114,6 +113,10 @@ public class EntryService {
 			return this.getEntriesByTagIDs(ids);
 		}
 		return this.getEntriesBySearchAndTags(title, sort, direction, ids);
+	}
+	
+	public Boolean isValidEntryTitleAndContent(Entry entry) {
+		return entry.getTitle().trim().length() > 0 && entry.getContent().trim().length() > 0;
 	}
 
 }
