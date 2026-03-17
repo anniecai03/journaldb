@@ -27,8 +27,15 @@ public class TagService {
 		return this.tagRepository.findByName(name);
 	}
 	
+	public Tag getTagByName(Tag tag) {
+		return this.tagRepository.findByName(tag.getName());
+	}
+	
 	public Tag createTag(Tag tag) {
-		return this.tagRepository.save(tag);
+		if (this.isAvailableTag(tag.getName())) {
+			return this.tagRepository.save(tag);
+		}
+		return null;
 	}
 	
 	public Integer deleteTagByID(Integer id) {
@@ -42,5 +49,22 @@ public class TagService {
 			return dbTag.getEntries();
 		}
 		return null;
+	}
+	
+	public Integer updateTagByID(Tag tag, Integer id) {
+		Tag dbTag = this.tagRepository.findByTagId(id);
+		
+		if (dbTag != null && this.isAvailableTag(tag.getName())) {
+			return this.tagRepository.updateTagByTagId(tag.getName(), id);
+		} else if (dbTag != null) {
+			Integer newId = this.getTagByName(tag).getTagId();
+			return this.tagRepository.combineTags(newId, id);
+		}
+		
+		return 0;		
+	};
+	
+	public Boolean isAvailableTag(String name) {
+		return this.tagRepository.findByName(name) == null;
 	}
 }

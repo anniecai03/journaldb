@@ -88,6 +88,10 @@ public class JournalController {
 	@PostMapping("/tags")
 	public ResponseEntity<Tag> createTag(@RequestBody Tag tag) {
 		Tag newTag = this.tagService.createTag(tag);
+		
+		if (newTag == null) {
+			return ResponseEntity.status(400).body(newTag);
+		}
 		return ResponseEntity.status(200).body(newTag);
 	}
 	
@@ -99,6 +103,16 @@ public class JournalController {
 			return ResponseEntity.status(404).body(deleteCount);
 		}
 		return ResponseEntity.status(200).body(deleteCount);
+	}
+	
+	@PutMapping("/tags/{tagId}")
+	public ResponseEntity<Integer> updateTagByID(@RequestBody Tag tag, @PathVariable Integer tagId) {
+		Integer updateCount = this.tagService.updateTagByID(tag, tagId);
+		
+		if (updateCount == 0) {
+			return ResponseEntity.status(404).body(updateCount);
+		}
+		return ResponseEntity.status(200).body(updateCount);	
 	}
 	
 	@GetMapping("/tags/{tagId}/entries")
